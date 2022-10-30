@@ -1,0 +1,14 @@
+{
+    "history_table": "flyway_migrations",
+    "prefix": "v",
+    "baselineDescription": "Baseline",
+    "baselineVersion": "0.0",
+    "installedBy": "olivier",
+    "url": "jdbc:oracle:thin:@//database:1521/XEPDB1",
+    "schemas": [
+        {
+            "user": "xxx",
+            "password": "xxx" 
+        }
+    ]
+}

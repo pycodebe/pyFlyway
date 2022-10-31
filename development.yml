@@ -1,0 +1,10 @@
+versionTable: flyway_migrations
+versionPrefix: v
+baselineDescription: Baseline
+baselineVersion": 0.0
+installedBy: xxxx
+databaseURL: jdbc:oracle:thin:@//database:1521/XEPDB1
+schemas: 
+  docker_user:
+    user: xxxx
+    password: xxxx

@@ -6,11 +6,12 @@ import yaml
 
 class Flyway:
 
-    def __init__(self, platform: str, image: str, clean_allowed: bool, environ: str) -> None:
+    def __init__(self, platform: str, image: str, clean_allowed: bool, environ: str, verbose: str) -> None:
         self.platform = platform 
         self.image = image
         self.clean_allowed = clean_allowed
         self.environ = environ
+        self.verbose = verbose
         
         with open(f'{self.environ}.yml', 'r') as stream:
             data_loaded = yaml.safe_load(stream)
@@ -20,9 +21,8 @@ class Flyway:
             self.database_url = data_loaded['databaseURL']
             self.schemas = data_loaded['schemas']
 
-    def _execute_command(self, command: Union[str, None], verbose: bool) -> None:
+    def _execute_command(self, command: Union[str, None]) -> None:
 
-        @staticmethod
         def run_command(command: list) -> str:
             with Popen(command, stdout=PIPE, stderr=None, shell=True) as process:
                 return process.communicate()[0].decode("utf-8")
@@ -41,7 +41,7 @@ class Flyway:
                     command_line = command_line + config
                     command_line.append(command)
 
-                if verbose:
+                if self.verbose:
                     print(command_line)
 
                 return command_line
@@ -59,37 +59,37 @@ class Flyway:
             print("There is no schema defined in the YAML file")
             sys.exit(1)
 
-    def version(self, verbose: bool=False) -> None:
+    def version(self) -> None:
         """Print the Flyway version and edition"""
-        print(self._execute_command(self.version.__name__, verbose=verbose))
+        print(self._execute_command(self.version.__name__))
 
-    def help(self, verbose: bool=False) -> None:
-        print(self._execute_command(command=None, verbose=verbose))
+    def help(self) -> None:
+        print(self._execute_command(command=None))
 
-    def clean(self, verbose:bool=False) -> None:
+    def clean(self) -> None:
         """Drops all objects in the configured schemas"""
         command_name = self.clean.__name__
         if not self.clean_allowed:
             print(f"The command {command_name} has been disable")
         else:
-            print(self._execute_command(command=command_name, verbose=verbose))
+            print(self._execute_command(command=command_name))
                 
-    def info(self, verbose: bool=False) -> None:
+    def info(self) -> None:
         """Prints the information about applied, current and pending migrations"""
-        print(self._execute_command(command=self.info.__name__, verbose=verbose))
+        print(self._execute_command(command=self.info.__name__))
         
-    def migrate(self, verbose: bool=False) -> None:
+    def migrate(self) -> None:
         """Migrates the database"""
-        print(self._execute_command(command=self.migrate.__name__, verbose=verbose))
+        print(self._execute_command(command=self.migrate.__name__))
     
-    def repair(self, verbose: bool=False) -> None:
+    def repair(self) -> None:
         """Repairs the schema history table"""
-        print(self._execute_command(command=self.repair.__name__, verbose=verbose))
+        print(self._execute_command(command=self.repair.__name__))
     
-    def baseline(self, verbose: bool=False) -> None:
+    def baseline(self) -> None:
         """Baselines an existing database at the baselineVersion"""
-        print(self._execute_command(command=self.baseline.__name__, verbose=verbose))
+        print(self._execute_command(command=self.baseline.__name__))
 
 
-flyway = Flyway(platform="docker", image="flyway/flyway", clean_allowed=False, environ="development")
-flyway.info(verbose=True)
+flyway = Flyway(platform="docker", image="flyway/flyway", clean_allowed=False, environ="development", verbose=True)
+flyway.info()

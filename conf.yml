@@ -1,3 +1,4 @@
+environment: development
 versionTable: flyway_migrations
 versionPrefix: v
 clean: False,
@@ -7,8 +8,8 @@ installedBy: xxxx
 databaseURL: jdbc:oracle:thin:@//database:1521/XEPDB1
 schemas: 
   docker_user:
-    user: xxxx
-    password: xxxx
+    user: docker_user
+    password: docker_user
 container:
   platform: docker
   image: flyway/flyway

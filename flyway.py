@@ -6,10 +6,7 @@ import yaml
 
 class Flyway:
 
-    def __init__(self, platform: str, image: str, clean_allowed: bool, environ: str, verbose: str) -> None:
-        self.platform = platform 
-        self.image = image
-        self.clean_allowed = clean_allowed
+    def __init__(self, environ: str, verbose: str) -> None:
         self.environ = environ
         self.verbose = verbose
         
@@ -17,9 +14,18 @@ class Flyway:
             data_loaded = yaml.safe_load(stream)
             self.version_table = data_loaded['versionTable']
             self.version_prefix = data_loaded['versionPrefix']
+            self.clean_allowed = data_loaded['clean']
             self.installer = data_loaded['installedBy']
             self.database_url = data_loaded['databaseURL']
             self.schemas = data_loaded['schemas']
+            
+            if data_loaded['container']:
+                self.container_platform = data_loaded['container']['platform']
+                self.container_image = data_loaded['container']['image']
+                self.container_network = data_loaded['container']['network']
+
+    def is_clean_allowed(self):
+        return self.clean_allowed
 
     def _execute_command(self, command: Union[str, None]) -> None:
 
@@ -29,7 +35,11 @@ class Flyway:
 
         def _command(self, command: Union[str, None], user: Union[str, None], password: Union[str, None]) -> list:
             try:
-                command_line = [self.platform, "run", "--rm", "--network=docker-services_dbnet", self.image]         
+                command_line = [self.container_platform, "run", "--rm"]
+                if self.container_network:
+                    command_line.append(f'--network={self.container_network}')
+                command_line.append(self.container_image)
+                
                 if command:  
                     config = [
                         f'-table={self.version_table}',
@@ -47,7 +57,7 @@ class Flyway:
                 return command_line
                 
             except Exception as e:
-                print(f"An error occurs with {self._command.__name__} : {e}")
+                print(f"An error occurs with {_command.__name__} : {e}")
                 exit(1)
 
         if len(self.schemas) > 0:
@@ -69,7 +79,7 @@ class Flyway:
     def clean(self) -> None:
         """Drops all objects in the configured schemas"""
         command_name = self.clean.__name__
-        if not self.clean_allowed:
+        if self.is_clean_allowed():
             print(f"The command {command_name} has been disable")
         else:
             print(self._execute_command(command=command_name))
@@ -91,5 +101,7 @@ class Flyway:
         print(self._execute_command(command=self.baseline.__name__))
 
 
-flyway = Flyway(platform="docker", image="flyway/flyway", clean_allowed=False, environ="development", verbose=True)
+flyway = Flyway(environ="development", verbose=False)
 flyway.info()
+flyway.baseline()
+flyway.migrate()

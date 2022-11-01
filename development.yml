@@ -1,5 +1,6 @@
 versionTable: flyway_migrations
 versionPrefix: v
+clean: False,
 baselineDescription: Baseline
 baselineVersion": 0.0
 installedBy: xxxx
@@ -8,3 +9,7 @@ schemas:
   docker_user:
     user: xxxx
     password: xxxx
+container:
+  platform: docker
+  image: flyway/flyway
+  network: docker-services_dbnet

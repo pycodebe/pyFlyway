@@ -1,3 +1,4 @@
+from pathlib import Path
 from subprocess import PIPE, Popen
 from typing import Union
 import sys
@@ -6,11 +7,10 @@ import yaml
 
 class Flyway:
 
-    def __init__(self, environ: str, verbose: str) -> None:
-        self.environ = environ
+    def __init__(self, verbose: str, conf_path: Path) -> None:
         self.verbose = verbose
         
-        with open(f'{self.environ}.yml', 'r') as stream:
+        with open((f'{conf_path}'), 'r') as stream:
             data_loaded = yaml.safe_load(stream)
             self.version_table = data_loaded['versionTable']
             self.version_prefix = data_loaded['versionPrefix']
@@ -99,9 +99,3 @@ class Flyway:
     def baseline(self) -> None:
         """Baselines an existing database at the baselineVersion"""
         print(self._execute_command(command=self.baseline.__name__))
-
-
-flyway = Flyway(environ="development", verbose=False)
-flyway.info()
-flyway.baseline()
-flyway.migrate()

@@ -74,7 +74,7 @@ schemas:
 container:
   platform:             <Container platform>
   image:                <Image/Container>
-  network:              <Network used to communicate between containers if Flyway container has to connect with a DB in a container as well>
+  network:              <Network used to communicate between containers>
 ```
 
 Sample

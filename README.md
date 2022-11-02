@@ -38,16 +38,17 @@ In this project, you will need 2 things:
     │        │    ├── 01_create_tablespaces.sql
     │        │    └── 02_create_users.sql
     │        └── Dockerfile                             
-    ├── flyway_wrapper                                  <- Flyway package
+    ├── wrapper                                         <- Flyway package
     │    ├── __init__.py                                
-    │    └── flyway_wrapper.py                          
+    │    └── wrapper.py                          
     ├── .gitignore                                      
     ├── conf.yml                                        <- YAML config template
     ├── docker-compose.yml                              <- compose for flyway & oracle DB
     ├── LICENSE                                         
     ├── pyproject.toml                                  <- config & dependencies for the  package builder
     ├── README.md                                       
-    └── setup.py                                        <- config & dependencies for the  package builder
+    ├── setup.py                                        <- config & dependencies for the  package builder
+    └── test.py                                         <- basic script to demonstrate
 
 <br />
 
@@ -94,6 +95,21 @@ container:
   platform: docker
   image: flyway/flyway
   network: docker-services_dbnet
+```
+
+<br />
+
+
+## Usage
+
+```
+from wrapper import Flyway
+
+client = Flyway(verbose=False, conf_path='conf.yml')
+client.help()
+client.info()
+client.migrate()
+...
 ```
 
 <br />

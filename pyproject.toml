@@ -1,17 +1,17 @@
 [project]
-name = "flyway-wrapper"
-version = "0.0.1"
+name = 'flyway-wrapper'
+version = '0.0.1'
 authors = [
-  { name="pycodeBE" },
+  { name='pycodeBE' },
 ]
-description = "Flyway wrapper"
-readme = "README.md"
-requires-python = ">=3.7"
+description = 'Flyway wrapper'
+readme = 'README.md'
+requires-python = '>=3.7'
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: MIT License",
-    "Operating System :: OS Independent",
+    'Programming Language :: Python :: 3',
+    'License :: MIT License',
+    'Operating System :: OS Independent',
 ]
 
 [tool.setuptools]
-packages = ["flyway_wrapper"]
+packages = ['wrapper',]

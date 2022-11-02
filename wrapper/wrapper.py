@@ -31,11 +31,11 @@ class Flyway:
 
         def run_command(command: list) -> str:
             with Popen(command, stdout=PIPE, stderr=None, shell=True) as process:
-                return process.communicate()[0].decode("utf-8")
+                return process.communicate()[0].decode('utf-8')
 
         def _command(self, command: Union[str, None], user: Union[str, None], password: Union[str, None]) -> list:
             try:
-                command_line = [self.container_platform, "run", "--rm"]
+                command_line = [self.container_platform, 'run', '--rm']
                 if self.container_network:
                     command_line.append(f'--network={self.container_network}')
                 command_line.append(self.container_image)
@@ -57,7 +57,7 @@ class Flyway:
                 return command_line
                 
             except Exception as e:
-                print(f"An error occurs with {_command.__name__} : {e}")
+                print(f'An error occurs with {_command.__name__} : {e}')
                 exit(1)
 
         if len(self.schemas) > 0:
@@ -66,7 +66,7 @@ class Flyway:
                 password = self.schemas[schema]['password']
                 print(run_command(command=_command(self, command=command, user=user, password=password)))
         else:
-            print("There is no schema defined in the YAML file")
+            print('There is no schema defined in the YAML file')
             sys.exit(1)
 
     def version(self) -> None:
@@ -74,6 +74,8 @@ class Flyway:
         print(self._execute_command(self.version.__name__))
 
     def help(self) -> None:
+        """Print Flyway help"""
+        command_name = self.clean.__name__
         print(self._execute_command(command=None))
 
     def clean(self) -> None:

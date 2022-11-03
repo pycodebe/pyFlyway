@@ -7,12 +7,19 @@
 ![GitHub stars](https://img.shields.io/github/stars/pycodebe/flyway-wrapper?&labelColor=black&color=f7b731&style=for-the-badge) &nbsp;
 ![GitHub LastCommit](https://img.shields.io/github/last-commit/pycodebe/flyway-wrapper?logo=github&labelColor=black&color=d1d8e0&style=for-the-badge) &nbsp;
 
+
 ## Overview
 
 Flyway-wrapper is a python wrapper for the Flyway open-source database-migration tool. <br />
 In this project, you will need 2 things:
 * Flyway as a Docker container
 * Your Flyway and database configuration in a YAML file
+
+<br />
+
+## Status
+
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/pycodebe/flyway-wrapper/master.svg)](https://results.pre-commit.ci/latest/github/pycodebe/flyway-wrapper/master)
 
 <br />
 
@@ -121,3 +128,4 @@ client.migrate()
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
+6. Your Pull Request will go through pre-commit hooks

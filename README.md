@@ -1,4 +1,4 @@
-# A wrapper for Flyway in Docker written in Python 
+# A wrapper for Flyway in Docker written in Python
 
 ![GitHub issues](https://img.shields.io/github/issues/pycodebe/flyway-wrapper?&labelColor=black&color=eb3b5a&label=Issues&logo=issues&logoColor=black&style=for-the-badge) &nbsp;
 ![GitHub Contributions](https://img.shields.io/github/contributors/pycodebe/flyway-wrapper?&labelColor=black&color=8854d0&style=for-the-badge) &nbsp;
@@ -39,21 +39,21 @@ In this project, you will need 2 things:
 ## Project Organization
 
     flyway-wrapper
-    ├── docker                                          <- containers builder 
+    ├── docker                                          <- containers builder
     │    └── database                                   <- Oracle DB
-    │        ├── sql                                    
+    │        ├── sql
     │        │    ├── 01_create_tablespaces.sql
     │        │    └── 02_create_users.sql
-    │        └── Dockerfile                             
+    │        └── Dockerfile
     ├── wrapper                                         <- Flyway package
-    │    ├── __init__.py                                
-    │    └── wrapper.py                          
-    ├── .gitignore                                      
+    │    ├── __init__.py
+    │    └── wrapper.py
+    ├── .gitignore
     ├── conf.yml                                        <- YAML config template
     ├── docker-compose.yml                              <- compose for flyway & oracle DB
-    ├── LICENSE                                         
+    ├── LICENSE
     ├── pyproject.toml                                  <- config & dependencies for the  package builder
-    ├── README.md                                       
+    ├── README.md
     ├── setup.py                                        <- config & dependencies for the  package builder
     └── test.py                                         <- basic script to demonstrate
 
@@ -74,7 +74,7 @@ baselineDescription:    <Description to tag an existing schema with when executi
 baselineVersion":       <The version to tag an existing schema with when executing baseline>
 installedBy:            <The username that will be recorded in the schema history table as having applied the migration>
 databaseURL:            <The jdbc url to use to connect to the database>
-schemas: 
+schemas:
   docker_user:          <Name of the schema>
     user:               <User to connect to the schema>
     password:           <Password to connect to the schema>
@@ -94,7 +94,7 @@ baselineDescription: Baseline
 baselineVersion": 0.0
 installedBy: docker_user
 databaseURL: jdbc:oracle:thin:@//database:1521/XEPDB1
-schemas: 
+schemas:
   docker_user:
     user: docker_user
     password: docker_user

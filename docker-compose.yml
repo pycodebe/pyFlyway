@@ -5,7 +5,7 @@ services:
     container_name: database
     build:
       context: .
-      dockerfile: 
+      dockerfile:
         docker/database/Dockerfile
     environment:
       - ORACLE_RANDOM_PASSWORD=yes

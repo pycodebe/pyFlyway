@@ -6,48 +6,52 @@ import yaml
 
 
 class Flyway:
-
     def __init__(self, verbose: str, conf_path: Path) -> None:
         self.verbose = verbose
-        
-        with open((f'{conf_path}'), 'r') as stream:
+
+        with open((f"{conf_path}"), "r") as stream:
             data_loaded = yaml.safe_load(stream)
-            self.version_table = data_loaded['versionTable']
-            self.version_prefix = data_loaded['versionPrefix']
-            self.clean_allowed = data_loaded['clean']
-            self.installer = data_loaded['installedBy']
-            self.database_url = data_loaded['databaseURL']
-            self.schemas = data_loaded['schemas']
-            
-            if data_loaded['container']:
-                self.container_platform = data_loaded['container']['platform']
-                self.container_image = data_loaded['container']['image']
-                self.container_network = data_loaded['container']['network']
+            self.version_table = data_loaded["versionTable"]
+            self.version_prefix = data_loaded["versionPrefix"]
+            self.clean_allowed = data_loaded["clean"]
+            self.installer = data_loaded["installedBy"]
+            self.database_url = data_loaded["databaseURL"]
+            self.schemas = data_loaded["schemas"]
+
+            if data_loaded["container"]:
+                self.container_platform = data_loaded["container"]["platform"]
+                self.container_image = data_loaded["container"]["image"]
+                self.container_network = data_loaded["container"]["network"]
 
     def is_clean_allowed(self):
         return self.clean_allowed
 
     def _execute_command(self, command: Union[str, None]) -> None:
-
         def run_command(command: list) -> str:
             with Popen(command, stdout=PIPE, stderr=None, shell=True) as process:
-                return process.communicate()[0].decode('utf-8')
+                return process.communicate()[0].decode("utf-8")
 
-        def _command(self, command: Union[str, None], user: Union[str, None], password: Union[str, None]) -> list:
+        def _command(
+            self,
+            command: Union[str, None],
+            user: Union[str, None],
+            password: Union[str, None],
+        ) -> list:
             try:
-                command_line = [self.container_platform, 'run', '--rm']
+                command_line = [self.container_platform, "run", "--rm"]
                 if self.container_network:
-                    command_line.append(f'--network={self.container_network}')
+                    command_line.append(f"--network={self.container_network}")
                 command_line.append(self.container_image)
-                
-                if command:  
+
+                if command:
                     config = [
-                        f'-table={self.version_table}',
-                        f'-sqlMigrationPrefix={self.version_prefix}',
-                        f'-installedBy={self.installer}',
-                        f'-user={user}', 
-                        f'-password={password}', 
-                        f'-url={self.database_url}'] 
+                        f"-table={self.version_table}",
+                        f"-sqlMigrationPrefix={self.version_prefix}",
+                        f"-installedBy={self.installer}",
+                        f"-user={user}",
+                        f"-password={password}",
+                        f"-url={self.database_url}",
+                    ]
                     command_line = command_line + config
                     command_line.append(command)
 
@@ -55,18 +59,24 @@ class Flyway:
                     print(command_line)
 
                 return command_line
-                
+
             except Exception as e:
-                print(f'An error occurs with {_command.__name__} : {e}')
+                print(f"An error occurs with {_command.__name__} : {e}")
                 exit(1)
 
         if len(self.schemas) > 0:
             for schema in self.schemas:
-                user = self.schemas[schema]['user']
-                password = self.schemas[schema]['password']
-                print(run_command(command=_command(self, command=command, user=user, password=password)))
+                user = self.schemas[schema]["user"]
+                password = self.schemas[schema]["password"]
+                print(
+                    run_command(
+                        command=_command(
+                            self, command=command, user=user, password=password
+                        )
+                    )
+                )
         else:
-            print('There is no schema defined in the YAML file')
+            print("There is no schema defined in the YAML file")
             sys.exit(1)
 
     def version(self) -> None:
@@ -85,19 +95,19 @@ class Flyway:
             print(f"The command {command_name} has been disable")
         else:
             print(self._execute_command(command=command_name))
-                
+
     def info(self) -> None:
         """Prints the information about applied, current and pending migrations"""
         print(self._execute_command(command=self.info.__name__))
-        
+
     def migrate(self) -> None:
         """Migrates the database"""
         print(self._execute_command(command=self.migrate.__name__))
-    
+
     def repair(self) -> None:
         """Repairs the schema history table"""
         print(self._execute_command(command=self.repair.__name__))
-    
+
     def baseline(self) -> None:
         """Baselines an existing database at the baselineVersion"""
         print(self._execute_command(command=self.baseline.__name__))

@@ -6,7 +6,7 @@ baselineDescription: Baseline
 baselineVersion": 0.0
 installedBy: xxxx
 databaseURL: jdbc:oracle:thin:@//database:1521/XEPDB1
-schemas: 
+schemas:
   docker_user:
     user: docker_user
     password: docker_user

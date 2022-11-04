@@ -6,6 +6,8 @@ from typing import Union
 import yaml
 
 """Flyway client."""
+
+
 class Flyway:
     def __init__(self, verbose: str, conf_path: Path) -> None:
         self.verbose = verbose
@@ -29,8 +31,7 @@ class Flyway:
 
     def _execute_command(self, command: Union[str, None]) -> None:
         def run_command(command: list) -> str:
-            with Popen(command, stdout=PIPE, stderr=None, 
-            shell=True) as process:
+            with Popen(command, stdout=PIPE, stderr=None, shell=True) as process:
                 return process.communicate()[0].decode("utf-8")
 
         def _command(

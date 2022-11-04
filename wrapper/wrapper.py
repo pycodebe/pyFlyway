@@ -5,6 +5,9 @@ from typing import Union
 
 import yaml
 
+"""Flyway client."""
+
+
 class Flyway:
 
     def __init__(self, verbose: str, conf_path: Path) -> None:

@@ -17,7 +17,7 @@ This current version is especially made to work with a containarized version of 
 Status
 ======
 
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/pycodebe/pyFlyway/master.svg)](https://results.pre-commit.ci/latest/github/pycodebe/flyway-wrapper/master)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/pycodebe/pyFlyway/master.svg)](https://results.pre-commit.ci/latest/github/pycodebe/pyFlyway/master)
 
 <br />
 

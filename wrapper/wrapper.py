@@ -1,7 +1,8 @@
+import sys
 from pathlib import Path
 from subprocess import PIPE, Popen
 from typing import Union
-import sys
+
 import yaml
 
 

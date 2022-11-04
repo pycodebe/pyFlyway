@@ -13,7 +13,7 @@ class Flyway:
     def __init__(self, verbose: str, conf_path: Path) -> None:
         self.verbose = verbose
 
-        with open((f"{conf_path}"), "r", encoding="utf-8") as stream:
+        with open((f"{conf_path}"), "rb") as stream:
             data_loaded = yaml.safe_load(stream)
             self.version_table = data_loaded["versionTable"]
             self.version_prefix = data_loaded["versionPrefix"]

@@ -10,7 +10,7 @@ class Flyway:
     def __init__(self, verbose: str, conf_path: Path) -> None:
         self.verbose = verbose
 
-        with open((f"{conf_path}"), "r") as stream:
+        with open((f"{conf_path}"), "r", encoding="utf-8") as stream:
             data_loaded = yaml.safe_load(stream)
             self.version_table = data_loaded["versionTable"]
             self.version_prefix = data_loaded["versionPrefix"]
@@ -28,6 +28,7 @@ class Flyway:
         return self.clean_allowed
 
     def _execute_command(self, command: Union[str, None]) -> None:
+        
         def run_command(command: list) -> str:
             with Popen(command, stdout=PIPE, stderr=None, shell=True) as process:
                 return process.communicate()[0].decode("utf-8")
@@ -63,7 +64,7 @@ class Flyway:
 
             except Exception as e:
                 print(f"An error occurs with {_command.__name__} : {e}")
-                exit(1)
+                sys.exit(1)
 
         if len(self.schemas) > 0:
             for schema in self.schemas:
@@ -86,7 +87,6 @@ class Flyway:
 
     def help(self) -> None:
         """Print Flyway help"""
-        command_name = self.clean.__name__
         print(self._execute_command(command=None))
 
     def clean(self) -> None:

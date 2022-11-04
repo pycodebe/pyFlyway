@@ -6,7 +6,7 @@ updates:
     schedule:
       interval: "weekly"
       day: "sunday"
-     reviewers:
+    reviewers:
       - "pycodeBE"
     labels:
       - "pip dependencies"

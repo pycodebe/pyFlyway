@@ -61,7 +61,7 @@ class Flyway:
 
                 return command_line
 
-            except (Exception,) as err: 
+            except (Exception,) as err:
                 print(f"An error occurs with {_command.__name__} : {err}")
                 sys.exit(1)
 

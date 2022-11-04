@@ -1,69 +1,60 @@
-# A wrapper for Flyway in Docker written in Python
-
-![GitHub issues](https://img.shields.io/github/issues/pycodebe/flyway-wrapper?&labelColor=black&color=eb3b5a&label=Issues&logo=issues&logoColor=black&style=for-the-badge) &nbsp;
-![GitHub Contributions](https://img.shields.io/github/contributors/pycodebe/flyway-wrapper?&labelColor=black&color=8854d0&style=for-the-badge) &nbsp;
-![repo size](https://img.shields.io/github/repo-size/pycodebe/flyway-wrapper?label=Repo%20Size&style=for-the-badge&labelColor=black&color=20bf6b) &nbsp;
-![GitHub forks](https://img.shields.io/github/forks/pycodebe/flyway-wrapper?&labelColor=black&color=0fb9b1&style=for-the-badge) &nbsp;
-![GitHub stars](https://img.shields.io/github/stars/pycodebe/flyway-wrapper?&labelColor=black&color=f7b731&style=for-the-badge) &nbsp;
-![GitHub LastCommit](https://img.shields.io/github/last-commit/pycodebe/flyway-wrapper?logo=github&labelColor=black&color=d1d8e0&style=for-the-badge) &nbsp;
+![GitHub issues](https://img.shields.io/github/issues/pycodebe/pyFlyway?&labelColor=black&color=eb3b5a&label=Issues&logo=issues&logoColor=black&style=for-the-badge) &nbsp;
+![GitHub Contributions](https://img.shields.io/github/contributors/pycodebe/pyFlyway?&labelColor=black&color=8854d0&style=for-the-badge) &nbsp;
+![repo size](https://img.shields.io/github/repo-size/pycodebe/pyFlyway?label=Repo%20Size&style=for-the-badge&labelColor=black&color=20bf6b) &nbsp;
+![GitHub forks](https://img.shields.io/github/forks/pycodebe/pyFlyway?&labelColor=black&color=0fb9b1&style=for-the-badge) &nbsp;
+![GitHub stars](https://img.shields.io/github/stars/pycodebe/pyFlyway?&labelColor=black&color=f7b731&style=for-the-badge) &nbsp;
+![GitHub LastCommit](https://img.shields.io/github/last-commit/pycodebe/pyFlyway?logo=github&labelColor=black&color=d1d8e0&style=for-the-badge) &nbsp;
 
 
-## Overview
+Overview
+========
 
-Flyway-wrapper is a python wrapper for the Flyway open-source database-migration tool. <br />
-In this project, you will need 2 things:
-* Flyway as a Docker container
-* Your Flyway and database configuration in a YAML file
+pyFlyway is a basic [Flyway](https://flywaydb.org/) client written in Python. <br />
+This current version is especially made to work with a containarized version of Flyway
 
 <br />
 
-## Status
+Status
+======
 
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/pycodebe/flyway-wrapper/master.svg)](https://results.pre-commit.ci/latest/github/pycodebe/flyway-wrapper/master)
-
-<br />
-
-## Requirements
-
-    Python mackages:
-    ----------------
-    python(>=3.7.x)
-    pyyaml(>=6.0)
-
-    Containers:
-    -----------
-    Flyway
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/pycodebe/pyFlyway/master.svg)](https://results.pre-commit.ci/latest/github/pycodebe/flyway-wrapper/master)
 
 <br />
 
-## Project Organization
+Requirements
+============
+* python (>=3.6.x)
+* Flyway in a docker container
+
+
+<br />
+
+Project Organization
+====================
 
     flyway-wrapper
-    ├── docker                                          <- containers builder
+    ├── .github
+    │     └── dependabot.yml                            <- Automated dependency updates built into GitHub
+    ├── docker                                          <- Containers builder
     │    └── database                                   <- Oracle DB
     │        ├── sql
     │        │    ├── 01_create_tablespaces.sql
     │        │    └── 02_create_users.sql
     │        └── Dockerfile
-    ├── wrapper                                         <- Flyway package
+    ├── wrapper                                         <- Flyway module
     │    ├── __init__.py
     │    └── wrapper.py
     ├── .gitignore
-    ├── conf.yml                                        <- YAML config template
-    ├── docker-compose.yml                              <- compose for flyway & oracle DB
+    ├── conf.yml                                        <- Template for your YAML config
+    ├── docker-compose.yml                              <- Compose for flyway & oracle DB
     ├── LICENSE
-    ├── pyproject.toml                                  <- config & dependencies for the  package builder
     ├── README.md
-    ├── setup.py                                        <- config & dependencies for the  package builder
-    └── test.py                                         <- basic script to demonstrate
+    ├── requirements.txt                                <- Modules dependencies
 
 <br />
 
-## Configuration
-
-<br />
-
-### YAML configuration file
+Configuration
+=============
 
 ```
 environment:            <The name of your environment>
@@ -106,24 +97,23 @@ container:
 
 <br />
 
+Usage
+=====
 
-## Usage
-
-```
+```python
 from wrapper import Flyway
 
 client = Flyway(verbose=False, conf_path='conf.yml')
-client.help()
 client.info()
 client.migrate()
-...
 ```
 
 <br />
 
-## Contributing
+Contributing
+============
 
-1. Fork it (<https://github.com/pycodebe/flyway-wrapper.git>)
+1. Fork it (<https://github.com/pycodebe/pyflyway.git>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)

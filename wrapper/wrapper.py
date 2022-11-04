@@ -28,7 +28,6 @@ class Flyway:
         return self.clean_allowed
 
     def _execute_command(self, command: Union[str, None]) -> None:
-        
         def run_command(command: list) -> str:
             with Popen(command, stdout=PIPE, stderr=None, shell=True) as process:
                 return process.communicate()[0].decode("utf-8")

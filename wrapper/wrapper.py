@@ -4,13 +4,15 @@ from pathlib import Path
 from subprocess import PIPE, Popen
 from typing import Union
 
-import yaml # noqa: E0401
+import yaml  # noqa: E0401
 
 
 class Flyway:
     """Flyway client class."""
 
-    def __init__(self, verbose: str, conf_path: Path) -> None: # noqa: E501 pylint: disable=too-many-instance-attributes
+    def __init__(
+        self, verbose: str, conf_path: Path
+    ) -> None:  # noqa: E501 pylint: disable=too-many-instance-attributes
         self.verbose = verbose
 
         with open((f"{conf_path}"), "r", encoding="utf-8") as stream:
@@ -61,7 +63,7 @@ class Flyway:
 
                 return command_line
 
-            except (Exception,) as err: 
+            except (Exception,) as err:
                 print(f"An error occurs with {_command.__name__} : {err}")
                 sys.exit(1)
 

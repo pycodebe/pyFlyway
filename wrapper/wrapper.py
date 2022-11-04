@@ -5,10 +5,11 @@ from typing import Union
 
 import yaml
 
-"""Flyway client."""
-
 
 class Flyway:
+
+    # pylint: disable=too-many-instance-attributes
+    # Ten is reasonable in this case.
 
     def __init__(self, verbose: str, conf_path: Path) -> None:
         self.verbose = verbose
@@ -27,13 +28,10 @@ class Flyway:
                 self.container_image = data_loaded["container"]["image"]
                 self.container_network = data_loaded["container"]["network"]
 
-    def is_clean_allowed(self):
-        return self.clean_allowed
-
     def _execute_command(self, command: Union[str, None]) -> None:
         def run_command(command: list) -> str:
-            with Popen(command, stdout=PIPE, stderr=None, shell=True) as p:
-                return p.communicate()[0].decode("utf-8")
+            with Popen(command, stdout=PIPE, stderr=None, shell=True) as proc:
+                return proc.communicate()[0].decode("utf-8")
 
         def _command(
             self,
@@ -64,8 +62,8 @@ class Flyway:
 
                 return command_line
 
-            except Exception as e:
-                print(f"An error occurs with {_command.__name__} : {e}")
+            except Exception as err:
+                print(f"An error occurs with {_command.__name__} : {err}")
                 sys.exit(1)
 
         if len(self.schemas) > 0:
@@ -94,7 +92,7 @@ class Flyway:
     def clean(self) -> None:
         """Drops all objects in the configured schemas"""
         command_name = self.clean.__name__
-        if self.is_clean_allowed():
+        if self.clean_allowed():
             print(f"The command {command_name} has been disable")
         else:
             print(self._execute_command(command=command_name))

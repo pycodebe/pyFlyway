@@ -1,15 +1,19 @@
+"""Modules."""
+import sys
 from pathlib import Path
 from subprocess import PIPE, Popen
 from typing import Union
-import sys
-import yaml
+
+import yaml  # pylint: disable=import-error
 
 
-class Flyway:
+class Flyway:  # pylint: disable=too-many-instance-attributes
+    """Flyway client class."""
+
     def __init__(self, verbose: str, conf_path: Path) -> None:
         self.verbose = verbose
 
-        with open((f"{conf_path}"), "r") as stream:
+        with open((f"{conf_path}"), "rb") as stream:
             data_loaded = yaml.safe_load(stream)
             self.version_table = data_loaded["versionTable"]
             self.version_prefix = data_loaded["versionPrefix"]
@@ -23,13 +27,10 @@ class Flyway:
                 self.container_image = data_loaded["container"]["image"]
                 self.container_network = data_loaded["container"]["network"]
 
-    def is_clean_allowed(self):
-        return self.clean_allowed
-
     def _execute_command(self, command: Union[str, None]) -> None:
         def run_command(command: list) -> str:
-            with Popen(command, stdout=PIPE, stderr=None, shell=True) as process:
-                return process.communicate()[0].decode("utf-8")
+            with Popen(command, stdout=PIPE, stderr=None, shell=True) as proc:
+                return proc.communicate()[0].decode("utf-8")
 
         def _command(
             self,
@@ -60,9 +61,9 @@ class Flyway:
 
                 return command_line
 
-            except Exception as e:
-                print(f"An error occurs with {_command.__name__} : {e}")
-                exit(1)
+            except (Exception,) as err:  # pylint: disable=broad-except
+                print(f"An error occurs with {_command.__name__} : {err}")
+                sys.exit(1)
 
         if len(self.schemas) > 0:
             for schema in self.schemas:
@@ -85,19 +86,18 @@ class Flyway:
 
     def help(self) -> None:
         """Print Flyway help"""
-        command_name = self.clean.__name__
         print(self._execute_command(command=None))
 
     def clean(self) -> None:
         """Drops all objects in the configured schemas"""
         command_name = self.clean.__name__
-        if self.is_clean_allowed():
+        if self.clean_allowed():
             print(f"The command {command_name} has been disable")
         else:
             print(self._execute_command(command=command_name))
 
     def info(self) -> None:
-        """Prints the information about applied, current and pending migrations"""
+        """Prints the information about migrations"""
         print(self._execute_command(command=self.info.__name__))
 
     def migrate(self) -> None:

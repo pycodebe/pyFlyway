@@ -4,10 +4,10 @@ from pathlib import Path
 from subprocess import PIPE, Popen
 from typing import Union
 
-import yaml
+import yaml  # pylint: disable=import-error
 
 
-class Flyway:
+class Flyway: # pylint: disable=too-many-instance-attributes
     """Flyway client class."""
 
     def __init__(self, verbose: str, conf_path: Path) -> None:
@@ -61,7 +61,7 @@ class Flyway:
 
                 return command_line
 
-            except (Exception,) as err:
+            except (Exception,) as err: # pylint: disable=broad-except
                 print(f"An error occurs with {_command.__name__} : {err}")
                 sys.exit(1)
 

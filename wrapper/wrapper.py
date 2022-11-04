@@ -9,7 +9,6 @@ import yaml
 
 
 class Flyway:
-
     def __init__(self, verbose: str, conf_path: Path) -> None:
         self.verbose = verbose
 

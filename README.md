@@ -24,7 +24,7 @@ Status
 Requirements
 ============
 * python (>=3.6.x)
-* Flyway in a docker container
+* docker
 
 
 <br />
@@ -34,22 +34,27 @@ Project Organization
 
     flyway-wrapper
     ├── .github
-    │     └── dependabot.yml                            <- Automated dependency updates built into GitHub
+    │     ├── dependabot.yml                            <- Automated dependency updates
+    │     └── pull_request_template.md                  <- Template for PR
     ├── docker                                          <- Containers builder
     │    └── database                                   <- Oracle DB
     │        ├── sql
     │        │    ├── 01_create_tablespaces.sql
     │        │    └── 02_create_users.sql
     │        └── Dockerfile
-    ├── wrapper                                         <- Flyway module
+    ├── pyflyway                                         <- Flyway module
     │    ├── __init__.py
-    │    └── wrapper.py
+    │    ├── errors.py
+    │    └── pyflyway.py
+    ├── templates
+    │    └── flyway_conf.yaml                           <- Template for your YAML config
     ├── .gitignore
-    ├── conf.yml                                        <- Template for your YAML config
+    ├── .pre-commit-config.yaml                         <- used by the code checker
     ├── docker-compose.yml                              <- Compose for flyway & oracle DB
     ├── LICENSE
     ├── README.md
     ├── requirements.txt                                <- Modules dependencies
+    └── setup.py
 
 <br />
 
@@ -63,7 +68,7 @@ versionPrefix:          <The file name prefix for versioned SQL migrations>
 clean:                  <Whether to disable clean command>
 baselineDescription:    <Description to tag an existing schema with when executing baseline>
 baselineVersion":       <The version to tag an existing schema with when executing baseline>
-installedBy:            <The username that will be recorded in the schema history table as having applied the migration>
+installedBy:            <The username that will be recorded in the schema history table>
 databaseURL:            <The jdbc url to use to connect to the database>
 schemas:
   docker_user:          <Name of the schema>
@@ -101,9 +106,9 @@ Usage
 =====
 
 ```python
-from wrapper import Flyway
+from pyflyway.pyflyway import Flyway
 
-client = Flyway(verbose=False, conf_path='conf.yml')
+client = Flyway(verbose=False, conf_path='conf.yaml')
 client.info()
 client.migrate()
 ```

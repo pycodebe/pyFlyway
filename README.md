@@ -48,7 +48,7 @@ Project Organization
     │    └── pyFlyway.py
     ├── templates
     │    └── flyway_conf.yaml                           <- Template for your YAML config
-    ├── .gitignore                                      
+    ├── .gitignore
     ├── .pre-commit-config.yaml                         <- used by the code checker
     ├── docker-compose.yml                              <- Compose for flyway & oracle DB
     ├── LICENSE

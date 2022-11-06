@@ -1,9 +1,11 @@
+import subprocess
 import sys
 from pathlib import Path
-from .errors import CleanForbiddenError, NoSchemaFoundError 
 from typing import Union
-import subprocess
+
 import yaml  # pylint: disable=import-error
+
+from .errors import CleanForbiddenError, NoSchemaFoundError
 
 
 class Flyway:  # pylint: disable=too-many-instance-attributes
@@ -71,9 +73,8 @@ class Flyway:  # pylint: disable=too-many-instance-attributes
                 password = cls.schemas[schema]["password"]
                 print(f"Schema: {schema}")
                 run_command(
-                    command=_command(cls, command=command, user=user, password=password
-                        )
-                    )
+                    command=_command(cls, command=command, user=user, password=password)
+                )
         else:
             raise NoSchemaFoundError
 

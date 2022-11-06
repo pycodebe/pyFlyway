@@ -1,3 +1,5 @@
+# pylint: disable=missing-docstring
+
 import subprocess
 import sys
 from pathlib import Path
@@ -30,15 +32,15 @@ class Flyway:  # pylint: disable=too-many-instance-attributes
                 cls.container_network = data_loaded["container"]["network"]
 
     @classmethod
-    def _execute_command(cls, command: Union[str, None]) -> str:
-        def run_command(command: list) -> str:
-            subprocess.run(command)
+    def _execute_command(cls, cmd: Union[str, None]) -> str:
+        def run_command(cmd: list) -> str:
+            subprocess.run(cmd, check=True)
 
         def _command(
             self,
-            command: Union[str, None],
+            cmd: Union[str, None],
             user: Union[str, None],
-            password: Union[str, None],
+            pwd: Union[str, None],
         ) -> list:
             try:
                 command_line = [self.container_platform, "run", "--rm"]
@@ -46,17 +48,17 @@ class Flyway:  # pylint: disable=too-many-instance-attributes
                     command_line.append(f"--network={self.container_network}")
                 command_line.append(self.container_image)
 
-                if command:
+                if cmd:
                     config = [
                         f"-table={self.version_table}",
                         f"-sqlMigrationPrefix={self.version_prefix}",
                         f"-installedBy={self.installer}",
                         f"-user={user}",
-                        f"-password={password}",
+                        f"-password={pwd}",
                         f"-url={self.database_url}",
                     ]
                     command_line = command_line + config
-                    command_line.append(command)
+                    command_line.append(cmd)
 
                 if self.verbose:
                     print(command_line)
@@ -70,23 +72,21 @@ class Flyway:  # pylint: disable=too-many-instance-attributes
         if len(cls.schemas) > 0:
             for schema in cls.schemas:
                 user = cls.schemas[schema]["user"]
-                password = cls.schemas[schema]["password"]
+                pwd = cls.schemas[schema]["password"]
                 print(f"Schema: {schema}")
-                run_command(
-                    command=_command(cls, command=command, user=user, password=password)
-                )
+                run_command(cmd=_command(cls, cmd=cmd, user=user, pwd=pwd))
         else:
             raise NoSchemaFoundError
 
     @classmethod
     def version(cls) -> None:
         """Return Flyway version and edition"""
-        cls._execute_command(cls.version.__name__)
+        cls._execute_command(cmd=cls.version.__name__)
 
     @classmethod
     def help(cls) -> None:
         """Return Flyway help"""
-        cls._execute_command(command=None)
+        cls._execute_command(cmd=None)
 
     @classmethod
     def clean(cls) -> None:
@@ -94,25 +94,24 @@ class Flyway:  # pylint: disable=too-many-instance-attributes
         command_name = cls.clean.__name__
         if cls.clean_allowed():
             raise CleanForbiddenError
-        else:
-            cls._execute_command(command=command_name)
+        cls._execute_command(cmd=command_name)
 
     @classmethod
     def info(cls) -> None:
         """Return informations about migrations"""
-        cls._execute_command(command=cls.info.__name__)
+        cls._execute_command(cmd=cls.info.__name__)
 
     @classmethod
     def migrate(cls) -> None:
         """Migrates the database"""
-        cls._execute_command(command=cls.migrate.__name__)
+        cls._execute_command(cmd=cls.migrate.__name__)
 
     @classmethod
     def repair(cls) -> None:
         """Repairs the schema history table"""
-        cls._execute_command(command=cls.repair.__name__)
+        cls._execute_command(cmd=cls.repair.__name__)
 
     @classmethod
     def baseline(cls) -> None:
         """Baselines an existing database at the baselineVersion"""
-        cls._execute_command(command=cls.baseline.__name__)
+        cls._execute_command(cmd=cls.baseline.__name__)

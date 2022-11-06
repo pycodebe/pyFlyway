@@ -1,10 +1,11 @@
+# pylint: disable=missing-docstring
 from setuptools import find_packages, setup
 
-with open("README.md") as readme_file:
+with open("README.md", encoding="utf-8") as readme_file:
     README = readme_file.read()
 
 setup_args = dict(
-    name="pyFlyway",
+    name="pyflyway",
     version="0.0.1",
     description="Basic Flyway client written in Python .",
     long_description=README,

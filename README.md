@@ -24,7 +24,7 @@ Status
 Requirements
 ============
 * python (>=3.6.x)
-* Flyway in a docker container
+* docker
 
 
 <br />
@@ -42,10 +42,10 @@ Project Organization
     │        │    ├── 01_create_tablespaces.sql
     │        │    └── 02_create_users.sql
     │        └── Dockerfile
-    ├── pyFlyway                                         <- Flyway module
+    ├── pyflyway                                         <- Flyway module
     │    ├── __init__.py
     │    ├── errors.py
-    │    └── pyFlyway.py
+    │    └── pyflyway.py
     ├── templates
     │    └── flyway_conf.yaml                           <- Template for your YAML config
     ├── .gitignore
@@ -106,7 +106,7 @@ Usage
 =====
 
 ```python
-from pyFlyway.pyFlyway import Flyway
+from pyflyway.pyflyway import Flyway
 
 client = Flyway(verbose=False, conf_path='conf.yaml')
 client.info()
